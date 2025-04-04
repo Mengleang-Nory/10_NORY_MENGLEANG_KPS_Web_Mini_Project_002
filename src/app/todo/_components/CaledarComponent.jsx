@@ -36,7 +36,7 @@ export function CaledarComponent({ onEndDate, oldDate }) {
           {date ? format(date, "PPP") : <span>Pick a date</span>}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-auto p-0" align="start">
+      <PopoverContent className="w-auto p-0 bg-white" align="start">
         <Calendar
           mode="single"
           selected={date}

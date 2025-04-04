@@ -104,17 +104,16 @@ export const updateTaskServiceStatusByIdAndByWorkspaceId = async (
   status
 ) => {
   try {
+    const header = await headerToken();
     const res = await fetch(
-      `${baseUrl}/task/${taskId}/workspace/${workspaceId}/status`,
+      `${baseUrl}/task/${taskId}/workspace/${workspaceId}/status?status=${status}`,
       {
         method: "PATCH",
-        body: JSON.stringify({ status }),
-        headers: {
-          accept: "*/*",
-          "Content-Type": "application/json",
-        },
+        headers: header,
       }
     );
+    const data = await res.json();
+    return data;
   } catch (e) {
     console.log("Error : ", e);
   }

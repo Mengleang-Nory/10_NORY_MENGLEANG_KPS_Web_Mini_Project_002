@@ -23,7 +23,7 @@ export function SelectTageComponent({ onSelectTag, tag }) {
       <SelectTrigger className="w-full">
         <SelectValue placeholder="Select a fruit" />
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent className="bg-white">
         <SelectGroup>
           <SelectLabel>Fruits</SelectLabel>
           <SelectItem value="DESIGN">DESIGN</SelectItem>

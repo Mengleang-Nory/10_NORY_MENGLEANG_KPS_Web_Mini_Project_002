@@ -63,24 +63,26 @@ const WorkspaceDetailPage = async ({ params }) => {
           <div>
             <h3>Not Stated</h3>
             <section className="flex flex-col gap-5">
-              <CardComponent cardData={notStatedTask} />
+              <CardComponent cardData={notStatedTask} color={"#F96666"} />
             </section>
           </div>
           <div>
             <h3>In Progress</h3>
             <section>
-              <CardComponent cardData={inProgressTask} />
+              <CardComponent cardData={inProgressTask} color={"#4379F2"} />
             </section>
           </div>
           <div>
             <h3>Finished</h3>
             <section>
-              <CardComponent cardData={finishedTask} />
+              <CardComponent cardData={finishedTask} color={"#009990"} />
             </section>
           </div>
         </div>
       </div>
-      <AddTaskButton />
+      <div className="fixed bottom-10 right-10">
+        <AddTaskButton />
+      </div>
     </div>
   );
 };

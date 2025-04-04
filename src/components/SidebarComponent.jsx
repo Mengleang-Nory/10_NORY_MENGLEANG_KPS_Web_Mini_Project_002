@@ -3,8 +3,18 @@
 import { AddNewWorkspaceComponent } from "./AddNewWorkspaceComponent";
 import Link from "next/link";
 import { UpdateWorkspaceComponent } from "./UpdateWorkspaceComponent";
+import { useEffect, useState } from "react";
 
 const SidebarComponent = ({ workspaceData }) => {
+  const getRandomColor = () => {
+    const letters = "0123456789ABCDEF";
+    let color = "#";
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  };
+
   return (
     <aside className="w-[355px] p-[30px] fixed top-[100px] left-0 buttom-0">
       <article className="flex justify-between items-center my-5">
@@ -20,7 +30,10 @@ const SidebarComponent = ({ workspaceData }) => {
             className="flex justify-between items-center p-[5px]"
           >
             <div className="flex items-center gap-[10px]">
-              <div className="w-[10px] h-[10px] bg-red-500 rounded-full"></div>
+              <div
+                className="w-[10px] h-[10px] rounded-full"
+                style={{ backgroundColor: getRandomColor() }}
+              ></div>
               <Link href={`/todo/${workspace.workspaceId}`}>
                 <h3>{workspace.workspaceName}</h3>
               </Link>
@@ -55,45 +68,21 @@ const SidebarComponent = ({ workspaceData }) => {
         {workspaceData.payload
           .filter((workspace) => workspace.isFavorite)
           .map((workspace) => (
-            <Link
-              href={`/todo/${workspace.workspaceId}`}
+            <li
               key={workspace.workspaceId}
+              className="flex justify-between items-center p-[5px]"
             >
-              <li className="flex justify-between items-center p-[5px]">
-                <div className="flex items-center gap-[10px]">
-                  <div className="w-[10px] h-[10px] bg-red-500 rounded-full"></div>
+              <div className="flex items-center gap-[10px]">
+                <div
+                  className="w-[10px] h-[10px] rounded-full"
+                  style={{ backgroundColor: getRandomColor() }}
+                ></div>
+                <Link href={`/todo/${workspace.workspaceId}`}>
                   <h3>{workspace.workspaceName}</h3>
-                </div>
-                {/* <button className="cursor-pointer">
-                  <svg
-                    width="20"
-                    height="21"
-                    viewBox="0 0 20 21"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M4.16667 8.83331C3.25 8.83331 2.5 9.58331 2.5 10.5C2.5 11.4166 3.25 12.1666 4.16667 12.1666C5.08333 12.1666 5.83333 11.4166 5.83333 10.5C5.83333 9.58331 5.08333 8.83331 4.16667 8.83331Z"
-                      stroke="#1E293B"
-                      strokeWidth="1.5"
-                    />
-                    <path
-                      d="M15.8334 8.83331C14.9167 8.83331 14.1667 9.58331 14.1667 10.5C14.1667 11.4166 14.9167 12.1666 15.8334 12.1666C16.75 12.1666 17.5 11.4166 17.5 10.5C17.5 9.58331 16.75 8.83331 15.8334 8.83331Z"
-                      stroke="#1E293B"
-                      strokeWidth="1.5"
-                    />
-                    <path
-                      d="M8.33331 10.5C8.33331 11.4166 9.08331 12.1666 9.99998 12.1666C10.9166 12.1666 11.6666 11.4166 11.6666 10.5C11.6666 9.58331 10.9166 8.83331 9.99998 8.83331"
-                      stroke="#1E293B"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </button> */}
-                <UpdateWorkspaceComponent workspaceId={workspace.workspaceId} />
-              </li>
-            </Link>
+                </Link>
+              </div>
+              <UpdateWorkspaceComponent workspaceId={workspace.workspaceId} />
+            </li>
           ))}
       </ul>
     </aside>

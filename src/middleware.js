@@ -2,4 +2,4 @@ export { default } from "next-auth/middleware";
 
 //Define the route that you wish to protect
 // export const config = { matcher: ['/category', "/task"] }
-export const config = { matcher: ["/"] };
+export const config = { matcher: ["/", "/todo"] };

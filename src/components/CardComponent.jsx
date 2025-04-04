@@ -1,3 +1,7 @@
+"use client";
+
+import { updateTaskActionStatusByIdAndByWorkspaceId } from "@/action/task/updateTaskActionStatusByIdAndByWorkspaceId";
+import { UpdateAndDeleteButton } from "@/app/todo/_components/UpdateAndDeleteButton";
 import {
   Select,
   SelectContent,
@@ -5,10 +9,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { set } from "date-fns";
 import { Clock, Ellipsis } from "lucide-react";
+import { usePathname } from "next/navigation";
 import React from "react";
 
-export default function CardComponent({ cardData }) {
+export default function CardComponent({ cardData, color }) {
+  const [taskValue, setTaskValue] = React.useState("");
+  const [taskId, setTaskId] = React.useState("");
+
+  const workspaceId = usePathname().split("/")[2];
+
   const formatDate = (isoString) => {
     const date = new Date(isoString);
     return date.toLocaleDateString("en-US", {
@@ -16,6 +27,14 @@ export default function CardComponent({ cardData }) {
       day: "2-digit", // 04
       year: "numeric", // 2025
     });
+  };
+
+  const handleChange = async (value, taskId) => {
+    const res = await updateTaskActionStatusByIdAndByWorkspaceId(
+      taskId,
+      workspaceId,
+      value
+    );
   };
 
   return (
@@ -28,7 +47,7 @@ export default function CardComponent({ cardData }) {
           <div className="p-5">
             <div className="flex justify-between">
               <h2 className="text-xl font-bold capitalize">{card.taskTitle}</h2>
-              <Ellipsis />
+              <UpdateAndDeleteButton taskId={card.taskId} />
             </div>
 
             {/* task detials */}
@@ -43,24 +62,37 @@ export default function CardComponent({ cardData }) {
               </p>
 
               {/* status */}
-              <div className={`rounded-full w-8 h-8 bg-watermelon-red`}></div>
+              {/* <div className={`rounded-full w-8 h-8 bg-watermelon-red`}></div> */}
+              <div
+                className="rounded-full w-8 h-8 bg-watermelon-red"
+                style={{ backgroundColor: color }}
+              ></div>
             </div>
           </div>
 
           {/* progress */}
           <div className="flex justify-between items-center border-t border-t-gray-300 p-5">
-            <Select>
-              <SelectTrigger
-                className={`w-36 truncate border-watermelon-red text-watermelon-red`}
+            <div>
+              <Select
+                onValueChange={(value) => {
+                  setTaskValue(value);
+                  setTaskId(card.taskId);
+                  handleChange(value, card.taskId);
+                }}
               >
-                <SelectValue placeholder={card.status} />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="NOT_STARTED">NOT_STARTED</SelectItem>
-                <SelectItem value="IN_PROGRESS">IN_PROGRESS</SelectItem>
-                <SelectItem value="FINISHED">FINISHED</SelectItem>
-              </SelectContent>
-            </Select>
+                <SelectTrigger
+                  className="w-36 truncate border p-2"
+                  style={{ borderColor: color, color: color }}
+                >
+                  <SelectValue placeholder={card.status} />
+                </SelectTrigger>
+                <SelectContent className="bg-white">
+                  <SelectItem value="NOT_STARTED">NOT_STARTED</SelectItem>
+                  <SelectItem value="IN_PROGRESS">IN_PROGRESS</SelectItem>
+                  <SelectItem value="FINISHED">FINISHED</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
 
             {/* date */}
             <p className="flex gap-3 text-light-steel-blue">

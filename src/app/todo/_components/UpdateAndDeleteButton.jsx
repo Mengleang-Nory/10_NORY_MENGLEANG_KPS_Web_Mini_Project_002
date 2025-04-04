@@ -10,27 +10,18 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { useForm } from "react-hook-form";
 import { useState } from "react";
-import { updateWorkspaceAction } from "@/action/workspace/updateWorkspaceAction";
+import { DeleteTaskComponent } from "./DeleteTaskComponent";
 
-export function UpdateWorkspaceComponent({ workspaceId }) {
-  const { handleSubmit, reset, register } = useForm();
-  const [open, setOpen] = useState(false); 
-
-  const onSubmit = async (data) => {
-    const res = await updateWorkspaceAction(workspaceId, data);
-    reset();
-    setOpen(false);
-  };
+export function UpdateAndDeleteButton({ taskId }) {
+  const [open, setOpen] = useState(false);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <button
           onClick={() => {
-            setOpen(true); 
+            open ? setOpen(false) : setOpen(true);
           }}
           className="cursor-pointer"
         >
@@ -63,28 +54,8 @@ export function UpdateWorkspaceComponent({ workspaceId }) {
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-[425px] bg-white">
-        <DialogHeader>
-          <DialogTitle>Update Workspace</DialogTitle>
-          <DialogDescription>New Workspace Name</DialogDescription>
-        </DialogHeader>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Input
-                id="workspaceName"
-                type="text"
-                placeholder="Please type your workspace name"
-                className="col-span-3 w-[375px]"
-                {...register("workspaceName")}
-              />
-            </div>
-          </div>
-          <DialogFooter>
-            <Button type="submit" className="bg-black text-white">
-              Update
-            </Button>
-          </DialogFooter>
-        </form>
+        <button>Edit</button>
+        <DeleteTaskComponent taskId={taskId} />
       </DialogContent>
     </Dialog>
   );

@@ -45,7 +45,7 @@ const NavbarComponent = async ({ userData, workspaceName }) => {
           />
           <div>
             <h2>{userData.payload.username}</h2>
-            <p>{userData.payload.email}</p>
+            <p className="text-[#009990]">{userData.payload.email}</p>
           </div>
         </article>
       </div>
